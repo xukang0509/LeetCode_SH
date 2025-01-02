@@ -1,0 +1,43 @@
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
+    class Solution {
+        public TreeNode buildTree(int[] preorder, int[] inorder) {
+            if (preorder.length == 0) return null;
+            return buildTree(preorder, 0, preorder.length, inorder, 0, inorder.length);
+        }
+
+        public TreeNode buildTree(int[] preOrder, int preL, int preR, int[] inOrder, int inL, int inR) {
+            if (preL >= preR) return null;
+            // 创建根节点
+            int rootValue = preOrder[preL];
+            TreeNode root = new TreeNode(rootValue);
+            // 切分左右子树
+            for (int i = inL; i < inR; i++) {
+                if (rootValue == inOrder[i]) { // i = 1
+                    root.left = buildTree(preOrder, preL + 1, preL + 1 + i - inL,
+                            inOrder, inL, inL + i - inL);
+                    root.right = buildTree(preOrder, preL + 1 + i - inL, preR,
+                            inOrder, i + 1, inR);
+                    break;
+                }
+            }
+            return root;
+        }
+    }
+
+//runtime:3 ms
+//memory:43.1 MB
