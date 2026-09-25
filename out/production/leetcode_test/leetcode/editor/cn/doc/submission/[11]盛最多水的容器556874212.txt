@@ -1,0 +1,21 @@
+    class Solution {
+        public int maxArea(int[] height) {
+            int i = 0, j = height.length - 1;
+            int maxArea = 0;
+            while (i < j) {
+                int min = Integer.min(height[i], height[j]);
+                int area = (j - i) * min;
+                maxArea = Integer.max(maxArea, area);
+                while (i < j && height[i] <= min) {
+                    i++;
+                }
+                while (i < j && height[j] <= min) {
+                    j--;
+                }
+            }
+            return maxArea;
+        }
+    }
+
+//runtime:1 ms
+//memory:56.6 MB

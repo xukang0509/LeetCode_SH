@@ -1,0 +1,63 @@
+## 哈希表 + 排序 + 模拟
+
+根据题意，先使用哈希表进行词频统计，再以二元组 $(x, cnt)$ 的形式转存到数组 `list` 中（其中 $x$ 为对应的 $nums$ 中的数值，$cnt$ 为数值 $x$ 在 `nums` 中的出现次数），再根据题目给定对 `list` 进行排序，最后再构造出答案。
+
+代码：
+
+* []
+
+```Java
+class Solution {
+    public int[] frequencySort(int[] nums) {
+        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        List<int[]> list = new ArrayList<>();
+        for (int key : map.keySet()) list.add(new int[]{key, map.get(key)});
+        Collections.sort(list, (a, b)->{
+            return a[1] != b[1] ? a[1] - b[1] : b[0] - a[0];
+        });
+        int[] ans = new int[n];
+        int idx = 0;
+        for (int[] info : list) {
+            while (info[1]-- > 0) ans[idx++] = info[0];
+        }
+        return ans;
+    }
+}
+```
+
+* []
+
+```TypeScript
+function frequencySort(nums: number[]): number[] {
+    const map = new Map<number, number>()
+    for (const x of nums) {
+        if (!map.has(x)) map.set(x, 0)
+        map.set(x, map.get(x) + 1)
+    }
+    nums.sort((a,b)=>{
+        return map.get(a) != map.get(b) ? map.get(a) - map.get(b) : b - a
+    })
+    return nums
+};
+```
+
+* 时间复杂度：使用哈希表进行统计复杂度为 $O(n)$；根据规则进行排序复杂度为 $O(n\log{n})$；构造答案复杂度为 $O(n)$。整体复杂度为 $O(n\log{n})$
+* 空间复杂度：$O(n)$
+
+---
+
+## 加餐
+
+**加餐一道经典笔试题 : [难度 3/5，求 LCS 具体方案变形题](https://mp.weixin.qq.com/s?__biz=MzU4NDE3MTEyMA==&mid=2247493575&idx=1&sn=682e50cc4fed417410bb5b37991971ce) 🎉🎉**
+
+---
+
+## 最后
+
+**如果有帮助到你，请给题解点个赞和收藏，让更多的人看到 ~ ("▔□▔)/**
+
+也欢迎你 [关注我](https://oscimg.oschina.net/oscnet/up-19688dc1af05cf8bdea43b2a863038ab9e5.png) 和 加入我们的[「组队打卡」](https://leetcode-cn.com/u/ac_oier/)小群 ，提供写「证明」&「思路」的高质量题解。
+
+所有题解已经加入 [刷题指南](https://github.com/SharingSource/LogicStack-LeetCode/wiki)，欢迎 star 哦 ~
