@@ -1,0 +1,46 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int leftRes = leftMost(nums, target);
+        if (leftRes == -1) {
+            return new int[]{-1, -1};
+        } else {
+            return new int[]{leftRes, rightMost(nums, target)};
+        }
+    }
+
+    public int leftMost(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int candidate = -1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (target < nums[mid]) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                candidate = mid;
+                right = mid - 1;
+            }
+        }
+        return candidate;
+    }
+
+    public int rightMost(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        int candidate = -1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (target < nums[mid]) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                candidate = mid;
+                left = mid + 1;
+            }
+        }
+        return candidate;
+    }
+}
+//runtime:0 ms
+//memory:44.8 MB
