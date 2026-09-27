@@ -8,27 +8,24 @@ package leetcode.editor.cn;
 class MoveZeroes {
     public static void main(String[] args) {
         Solution solution = new MoveZeroes().new Solution();
-
+        solution.moveZeroes(new int[]{1});
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public void moveZeroes(int[] nums) {
-            int i = 0, j = 0;
-            while (j < nums.length) {
-                if (nums[j] != 0) {
-                    swap(nums, i, j);
-                    i++;
+            for (int fast = 0, slow = 0; fast < nums.length; fast++) {
+                if (nums[fast] != 0) {
+                    swap(nums, fast, slow++);
                 }
-                j++;
             }
         }
 
         private void swap(int[] nums, int i, int j) {
             if (i == j) return;
-            int t = nums[i];
-            nums[i] = nums[j];
-            nums[j] = t;
+            nums[i] ^= nums[j];
+            nums[j] ^= nums[i];
+            nums[i] ^= nums[j];
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

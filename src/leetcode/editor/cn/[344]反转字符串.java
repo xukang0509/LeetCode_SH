@@ -22,17 +22,16 @@ class ReverseString {
             reverseString(s, 0, s.length - 1);
         }
 
-        public void reverseString(char[] s, int i, int j) {
-            if (i >= j) return;
-            while (i < j) {
-                swap(s, i++, j--);
+        private static void reverseString(char[] s, int left, int right) {
+            while (left < right) {
+                swap(s, left++, right--);
             }
         }
 
-        private void swap(char[] s, int i, int j) {
-            char t = s[i];
+        private static void swap(char[] s, int i, int j) {
+            char tmp = s[i];
             s[i] = s[j];
-            s[j] = t;
+            s[j] = tmp;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
