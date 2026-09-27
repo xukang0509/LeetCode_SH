@@ -7,6 +7,7 @@ import java.util.Map;
  * 两数之和
  * 2024-05-13 15:42:16
  */
+@SuppressWarnings("all")
 class TwoSum {
     public static void main(String[] args) {
         Solution solution = new TwoSum().new Solution();
