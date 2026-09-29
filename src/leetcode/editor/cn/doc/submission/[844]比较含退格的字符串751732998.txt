@@ -1,0 +1,24 @@
+    class Solution {
+        public boolean backspaceCompare(String s, String t) {
+            return convertStr(s).equals(convertStr(t));
+        }
+
+        private String convertStr(String str) {
+            char[] charArray = str.toCharArray();
+            Deque<Character> stack = new ArrayDeque<>(charArray.length);
+            for (char c : charArray) {
+                if (c != '#') {
+                    stack.push(c);
+                } else if (!stack.isEmpty()){
+                    stack.pop();
+                }
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            while (!stack.isEmpty())
+                stringBuilder.append(stack.pop());
+            return stringBuilder.toString();
+        }
+    }
+
+//runtime:1 ms
+//memory:42.5 MB
