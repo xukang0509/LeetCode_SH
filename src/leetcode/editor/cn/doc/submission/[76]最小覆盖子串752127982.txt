@@ -1,0 +1,48 @@
+    class Solution {
+        public String minWindow(String s, String t) {
+            Map<Character, Integer> map = new HashMap<>();
+            for (int i = 0; i < t.length(); i++) {
+                char c = t.charAt(i);
+                if (!map.containsKey(c)) map.put(c, 1);
+            }
+            int size = map.size();
+            char[] sCharArr = s.toCharArray();
+            int minL = 0, minR = s.length(), minLen = Integer.MAX_VALUE;
+            int i = 0;
+            for (i = 0; i < sCharArr.length; i++) {
+                if (map.containsKey(sCharArr[i])) break;
+            }
+            for (int j = i; j < sCharArr.length; j++) {
+                char cr = sCharArr[j];
+                if (map.containsKey(cr)) {
+                    map.put(cr, 0);
+                    if (--size == 0) {
+                        if (minLen > j - i + 1) {
+                            minLen = j - i + 1;
+                            minL = i;
+                            minR = j;
+                        }
+                        i++;
+                        for (; i < j; i++) {
+                            if (map.containsKey(sCharArr[i])) {
+                                map.put(sCharArr[i], 1);
+                                size++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+            return minR - minL == s.length() ? "" : s.substring(minL, minR + 1);
+        }
+    }
+
+//total_testcases:268
+//total_correct:68
+//input_formatted:"a"
+"aa"
+//expected_output:""
+//code_output:"a"
+//last_testcase:"a"
+"aa"

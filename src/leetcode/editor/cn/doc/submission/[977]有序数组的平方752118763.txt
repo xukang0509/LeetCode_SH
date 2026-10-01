@@ -1,0 +1,13 @@
+    class Solution {
+        public int[] sortedSquares(int[] nums) {
+            int[] result = new int[nums.length];
+            int left = 0, right = nums.length - 1, index = nums.length - 1;
+            while (left <= right) {
+                result[index--] = Math.abs(nums[left]) >= Math.abs(nums[right]) ? nums[left] * nums[left++] : nums[right] * nums[right--];
+            }
+            return result;
+        }
+    }
+
+//runtime:1 ms
+//memory:46.5 MB

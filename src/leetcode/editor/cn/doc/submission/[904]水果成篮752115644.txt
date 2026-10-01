@@ -1,0 +1,20 @@
+    class Solution {
+        public int totalFruit(int[] fruits) {
+            int max = Integer.MIN_VALUE;
+            int i = 0;
+            for (int j = 0; j < fruits.length; ) {
+                int one = fruits[j];
+                while (j < fruits.length - 1 && one == fruits[j + 1]) j++;
+                if (++j >= fruits.length) return Math.max(max, j - i);
+                int two = fruits[j];
+                while (j < fruits.length - 1 && (one == fruits[j + 1] || two == fruits[j + 1])) j++;
+                max = Math.max(max, j - i + 1);
+                i = j;
+                while (i > 0 && fruits[i - 1] == fruits[j]) --i;
+            }
+            return max;
+        }
+    }
+
+//runtime:5 ms
+//memory:72.1 MB
