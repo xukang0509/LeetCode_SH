@@ -6,6 +6,7 @@ import leetcode.editor.util.ListNode;
  * 环形链表
  * 2024-05-31 20:51:43
  */
+@SuppressWarnings("ALL")
 class LinkedListCycle {
     public static void main(String[] args) {
         Solution solution = new LinkedListCycle().new Solution();
@@ -29,8 +30,8 @@ class LinkedListCycle {
         public boolean hasCycle(ListNode head) {
             ListNode fast = head, slow = head;
             while (fast != null && fast.next != null) {
-                fast = fast.next.next;
                 slow = slow.next;
+                fast = fast.next.next;
                 if (fast == slow) return true;
             }
             return false;

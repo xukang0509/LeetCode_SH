@@ -6,6 +6,7 @@ import leetcode.editor.util.ListNode;
  * 相交链表
  * 2024-05-31 21:25:13
  */
+@SuppressWarnings("ALL")
 class IntersectionOfTwoLinkedLists {
     public static void main(String[] args) {
         Solution solution = new IntersectionOfTwoLinkedLists().new Solution();
@@ -27,22 +28,13 @@ class IntersectionOfTwoLinkedLists {
      */
     public class Solution {
         public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-            ListNode p1 = headA, p2 = headB;
-            while (true) {
-                if (p1 == p2) {
-                    return p1;
-                }
-                if (p1 != null) {
-                    p1 = p1.next;
-                } else {
-                    p1 = headB;
-                }
-                if (p2 != null) {
-                    p2 = p2.next;
-                } else {
-                    p2 = headA;
-                }
+            if (headA == null || headB == null) return null;
+            ListNode a = headA, b = headB;
+            while (a != b) {
+                a = a == null ? headB : a.next;
+                b = b == null ? headA : b.next;
             }
+            return a;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

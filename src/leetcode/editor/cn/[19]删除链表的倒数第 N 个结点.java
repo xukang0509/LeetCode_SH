@@ -6,10 +6,11 @@ import leetcode.editor.util.ListNode;
  * 删除链表的倒数第 N 个结点
  * 2024-05-31 10:19:40
  */
+@SuppressWarnings("ALL")
 class RemoveNthNodeFromEndOfList {
     public static void main(String[] args) {
         Solution solution = new RemoveNthNodeFromEndOfList().new Solution();
-
+        solution.removeNthFromEnd(new ListNode(1, null), 1);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -26,34 +27,18 @@ class RemoveNthNodeFromEndOfList {
      */
     class Solution {
         public ListNode removeNthFromEnd(ListNode head, int n) {
-            head = new ListNode(-1, head);
-            ListNode p1 = head;
-            ListNode p2 = head;
-            for (int i = 0; i <= n; i++) {
-                p2 = p2.next;
-            }
-            while (p2 != null) {
-                p2 = p2.next;
-                p1 = p1.next;
-            }
-            p1.next = p1.next.next;
-            return head.next;
+            ListNode dummyNode = new ListNode(-1, head);
+            remove(dummyNode, n);
+            return dummyNode.next;
         }
 
-
-        public ListNode removeNthFromEnd1(ListNode head, int n) {
-            head = new ListNode(-1, head);
-            recursion(head, n);
-            return head.next;
-        }
-
-        private int recursion(ListNode p, int n) {
+        private int remove(ListNode p, int n) {
             if (p == null) return 0;
-            int res = recursion(p.next, n);
-            if (res == n) {
+            int num = remove(p.next, n);
+            if (num == n) {
                 p.next = p.next.next;
             }
-            return res + 1;
+            return num + 1;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

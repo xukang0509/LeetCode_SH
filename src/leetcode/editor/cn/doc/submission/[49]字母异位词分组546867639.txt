@@ -1,0 +1,36 @@
+    class Solution {
+        public List<List<String>> groupAnagrams(String[] strs) {
+            Map<ArrayKey, List<String>> map = new HashMap<>();
+            for (String str : strs) {
+                ArrayKey key = new ArrayKey(str);
+                List<String> stringList = map.computeIfAbsent(key, k -> new ArrayList<>());
+                stringList.add(str);
+            }
+            return new ArrayList<>(map.values());
+        }
+
+        static class ArrayKey {
+            private int[] array = new int[26];
+
+            public ArrayKey(String str) {
+                for (char c : str.toCharArray()) {
+                    array[c - 'a']++;
+                }
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof ArrayKey arrayKey)) return false;
+                return Arrays.equals(array, arrayKey.array);
+            }
+
+            @Override
+            public int hashCode() {
+                return Arrays.hashCode(array);
+            }
+        }
+    }
+
+//runtime:9 ms
+//memory:46.4 MB

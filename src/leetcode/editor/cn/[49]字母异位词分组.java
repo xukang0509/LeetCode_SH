@@ -1,49 +1,40 @@
 package leetcode.editor.cn;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字母异位词分组
  * 2024-07-15 14:21:16
  */
+@SuppressWarnings("ALL")
 class GroupAnagrams {
     public static void main(String[] args) {
         Solution solution = new GroupAnagrams().new Solution();
-
+        solution.groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<String>> groupAnagrams(String[] strs) {
-            Map<ArrayKey, List<String>> map = new HashMap<>();
-            for (String str : strs) {
-                ArrayKey key = new ArrayKey(str);
-                List<String> stringList = map.computeIfAbsent(key, k -> new ArrayList<>());
-                stringList.add(str);
-            }
-            return new ArrayList<>(map.values());
-        }
-
-        static class ArrayKey {
-            int[] array = new int[26];
-
-            public ArrayKey(String str) {
-                for (char c : str.toCharArray()) {
-                    array[c - 'a']++;
+            final StringBuilder builder = new StringBuilder();
+            final int[] count = new int[26];
+            return new ArrayList<>(Arrays.stream(strs).collect(Collectors.groupingBy(str -> {
+                for (int i = 0; i < str.length(); i++) {
+                    count[str.charAt(i) - 'a']++;
                 }
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (!(o instanceof ArrayKey arrayKey)) return false;
-                return Arrays.equals(array, arrayKey.array);
-            }
-
-            @Override
-            public int hashCode() {
-                return Arrays.hashCode(array);
-            }
+                for (int i = 0; i < count.length; i++) {
+                    if (count[i] != 0) {
+                        builder.append(((char) ('a' + i))).append(count[i]);
+                        count[i] = 0;
+                    }
+                }
+                String key = builder.toString();
+                builder.setLength(0);
+                return key;
+            })).values());
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
