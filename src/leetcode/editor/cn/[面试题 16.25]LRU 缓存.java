@@ -4,21 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * LRU 缓存
- * 2024-08-25 19:16:59
+ * @Description: LRU 缓存
+ * @author: xu
+ * @date: 2026-10-01 19:43:07
  */
 @SuppressWarnings("all")
-class LruCache {
+class LruCacheLcci {
     public static void main(String[] args) {
-        //LRUCache lRUCache = new LRUCache(2);
-        //lRUCache.put(1, 1); // 缓存是 {1=1}
-        //lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
-        //lRUCache.get(1); // 返回 1
-        //lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
-        //lRUCache.get(2); // 返回 -1 (未找到)
-        //lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
-        //lRUCache.get(1); // 返回 -1 (未找到)
-        //lRUCache.get(3); // 返回 3 lRUCache.get(4); // 返回 4
+        LruCacheLcci.LRUCache cache = new LruCacheLcci().new LRUCache(2);
+        // TO TEST
+        cache.put(1, 1);
+        cache.put(2, 2);
+        System.out.println("cache.get(1) = " + cache.get(1));       // 返回  1
+        cache.put(3, 3);    // 该操作会使得密钥 2 作废
+        System.out.println("cache.get(2) = " + cache.get(2));       // 返回 -1 (未找到)
+        cache.put(4, 4);    // 该操作会使得密钥 1 作废
+        System.out.println("cache.get(1) = " + cache.get(1));       // 返回 -1 (未找到)
+        System.out.println("cache.get(3) = " + cache.get(3));       // 返回  3
+        System.out.println("cache.get(4) = " + cache.get(4));       // 返回  4
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -53,7 +56,7 @@ class LruCache {
             this.map.put(key, node);
             addToHead(node);
             if (map.size() > capacity) {
-                Node removed = removeLast();
+                Node removed = remove();
                 this.map.remove(removed.key);
             }
         }
@@ -76,10 +79,10 @@ class LruCache {
             node.next = node.prev = null;
         }
 
-        private Node removeLast() {
-            Node last = tail.prev;
-            removeNode(last);
-            return last;
+        private Node remove() {
+            Node node = tail.prev;
+            removeNode(node);
+            return node;
         }
 
         private static class Node {

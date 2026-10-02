@@ -6,6 +6,7 @@ import leetcode.editor.util.ListNode;
  * 反转链表
  * 2024-05-30 16:58:26
  */
+@SuppressWarnings("ALL")
 class ReverseLinkedList {
     public static void main(String[] args) {
         Solution solution = new ReverseLinkedList().new Solution();
@@ -26,41 +27,15 @@ class ReverseLinkedList {
      */
     class Solution {
         public ListNode reverseList(ListNode head) {
-            // 不足两个节点
-            if (head == null || head.next == null) return head;
-            ListNode temp;
-            ListNode newHead = head;
-            while ((temp = head.next) != null) {
-                head.next = temp.next;
-                temp.next = newHead;
-                newHead = temp;
+            if (head == null || head.next == null) {
+                return head;
             }
-            return newHead;
-        }
-
-
-        public ListNode reverseList2(ListNode head) {
-            // 不足两个节点
-            if (head == null || head.next == null) return head;
-            ListNode newHead = reverseList(head.next);
+            ListNode last = reverseList(head.next);
             head.next.next = head;
             head.next = null;
-            return newHead;
+            return last;
         }
 
-
-        public ListNode reverseList1(ListNode head) {
-            // 不足两个节点
-            if (head == null || head.next == null) return head;
-            ListNode newHead = null;
-            while (head != null) {
-                ListNode temp = head.next;
-                head.next = newHead;
-                newHead = head;
-                head = temp;
-            }
-            return newHead;
-        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

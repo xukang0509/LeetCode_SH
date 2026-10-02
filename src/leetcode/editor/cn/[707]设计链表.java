@@ -68,15 +68,15 @@ class DesignLinkedList {
 
         private Node node(int index) {
             if ((size >>> 1) <= index) {
-                Node cur = head.next;
-                for (int i = 0; i < index; i++) {
-                    cur = cur.next;
-                }
-                return cur;
-            } else {
                 Node cur = tail;
                 for (int i = 0; i < size - index; i++) {
                     cur = cur.prev;
+                }
+                return cur;
+            } else {
+                Node cur = head;
+                for (int i = 0; i <= index; i++) {
+                    cur = cur.next;
                 }
                 return cur;
             }
