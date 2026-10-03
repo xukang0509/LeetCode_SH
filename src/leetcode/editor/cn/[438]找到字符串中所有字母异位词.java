@@ -18,42 +18,40 @@ class FindAllAnagramsInAString {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        final int[] count = new int[26];
-        final StringBuilder builder = new StringBuilder();
 
         public List<Integer> findAnagrams(String s, String p) {
             List<Integer> res = new ArrayList<>();
-            String pKey = findStr(p.toCharArray());
+            int sLen = s.length();
             int pLen = p.length();
-            int left = 0;
-            int right = left + pLen;
-            char[] sCharArray = s.toCharArray();
-            char[] tmp = new char[pLen];
-            while (right <= s.length()) {
-                System.arraycopy(sCharArray, left, tmp, 0, pLen);
-                String tmpStr = findStr(tmp);
-                if (tmpStr.equals(pKey)) {
-                    res.add(left);
+            if (sLen < pLen) return res;
+            int[] count = new int[26];
+            for (int i = 0; i < pLen; i++) {
+                count[s.charAt(i) - 'a']++;
+                count[p.charAt(i) - 'a']--;
+            }
+            int differ = 0;
+            for (int num : count) {
+                if (num != 0) differ++;
+            }
+            if (differ == 0) res.add(0);
+            for (int i = 0; i < sLen - pLen; i++) {
+                if (count[s.charAt(i) - 'a'] == 1) {
+                    differ--;
+                } else if (count[s.charAt(i) - 'a'] == 0) {
+                    differ++;
                 }
-                left++;
-                right = left + pLen;
+                count[s.charAt(i) - 'a']--;
+
+                if (count[s.charAt(i + pLen) - 'a'] == -1) {
+                    differ--;
+                } else if (count[s.charAt(i + pLen) - 'a'] == 0) {
+                    differ++;
+                }
+                count[s.charAt(i + pLen) - 'a']++;
+
+                if (differ == 0) res.add(i + 1);
             }
             return res;
-        }
-
-        private String findStr(char[] chars) {
-            for (char aChar : chars) {
-                count[aChar - 'a']++;
-            }
-            for (int i = 0; i < count.length; i++) {
-                if (count[i] != 0) {
-                    builder.append((char) ('a' + i)).append(count[i]);
-                    count[i] = 0;
-                }
-            }
-            String string = builder.toString();
-            builder.setLength(0);
-            return string;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,0 +1,41 @@
+    class Solution {
+
+        public List<Integer> findAnagrams(String s, String p) {
+            List<Integer> res = new ArrayList<>();
+            int sLen = s.length();
+            int pLen = p.length();
+            if (sLen < pLen) return res;
+            int[] sCount = new int[26];
+            int[] pCount = new int[26];
+            for (int i = 0; i < pLen; i++) {
+                sCount[s.charAt(i) - 'a']++;
+                pCount[p.charAt(i) - 'a']++;
+            }
+            if (equals(sCount, pCount)) {
+                res.add(0);
+            }
+            for (int i = 0; i < sLen - pLen; i++) {
+                sCount[s.charAt(i) - 'a']--;
+                sCount[s.charAt(i + pLen) - 'a']++;
+                if (equals(sCount, pCount)) {
+                    res.add(i + 1);
+                }
+            }
+            return res;
+        }
+
+        private boolean equals(int[] a1, int[] a2) {
+            if (a1.length != a2.length) {
+                return false;
+            }
+            for (int i = 0; i < a1.length; i++) {
+                if (a1[i] != a2[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+//runtime:8 ms
+//memory:46.1 MB

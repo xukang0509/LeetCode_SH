@@ -1,0 +1,22 @@
+    class Solution {
+        public boolean isHappy(int n) {
+            Set<Integer> set = new HashSet<>();
+            int num = n;
+            int sum = 0;
+            while (sum != 1) {
+                sum = 0;
+                while (num > 0) {
+                    int n1 = num % 10;
+                    sum += n1 * n1;
+                    num /= 10;
+                }
+                if (set.contains(sum)) return false;
+                set.add(sum);
+                num = sum;
+            }
+            return true;
+        }
+    }
+
+//runtime:1 ms
+//memory:42 MB
