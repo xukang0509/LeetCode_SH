@@ -1,0 +1,24 @@
+    class Solution {
+        public boolean isHappy(int n) {
+            int slow = n;
+            int fast = getNextNum(n);
+            while (fast != 1 && fast != slow) {
+                slow = getNextNum(slow);
+                fast = getNextNum(getNextNum(fast));
+            }
+            return fast == 1;
+        }
+
+        private int getNextNum(int n) {
+            int res = 0;
+            while (n > 0) {
+                int i = n % 10;
+                res += i * i;
+                n /= 10;
+            }
+            return res;
+        }
+    }
+
+//runtime:1 ms
+//memory:41.5 MB
