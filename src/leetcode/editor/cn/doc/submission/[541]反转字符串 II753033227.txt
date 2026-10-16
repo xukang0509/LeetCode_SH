@@ -1,0 +1,17 @@
+    class Solution {
+        public String reverseStr(String s, int k) {
+            char[] array = s.toCharArray();
+            for (int i = 0; i < array.length; i += (2 * k)) {
+                int l = i, r = Math.min(i + k - 1, array.length - 1);
+                while (l < r) {
+                    array[l] ^= array[r];
+                    array[r] ^= array[l];
+                    array[l++] ^= array[r--];
+                }
+            }
+            return new String(array);
+        }
+    }
+
+//runtime:1 ms
+//memory:43.9 MB

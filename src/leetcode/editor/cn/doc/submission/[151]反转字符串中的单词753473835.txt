@@ -1,0 +1,33 @@
+    class Solution {
+        public String reverseWords(String s) {
+            char[] array = s.toCharArray();
+            reverseChars(array, 0, array.length - 1);
+
+            int arrPos = 0;
+            int i = 0;
+            while (i < array.length) {
+                while (i < array.length && array[i] == ' ') i++;
+                int left = i;
+                while (i < array.length && array[i] != ' ') i++;
+                int start = arrPos;
+                for (int j = left; j < i; j++) {
+                    array[arrPos++] = array[j];
+                }
+                reverseChars(array, start, arrPos - 1);
+                if (arrPos < array.length) array[arrPos++] = ' ';
+            }
+            while (arrPos >= 0 && array[--arrPos] == ' ') ;
+            return new String(array, 0, arrPos + 1);
+        }
+
+        private void reverseChars(char[] chars, int l, int r) {
+            while (l < r) {
+                chars[l] ^= chars[r];
+                chars[r] ^= chars[l];
+                chars[l++] ^= chars[r--];
+            }
+        }
+    }
+
+//runtime:2 ms
+//memory:43.1 MB

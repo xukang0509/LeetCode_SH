@@ -8,47 +8,24 @@ package leetcode.editor.cn;
 class FindTheIndexOfTheFirstOccurrenceInAString {
     public static void main(String[] args) {
         Solution solution = new FindTheIndexOfTheFirstOccurrenceInAString().new Solution();
-
+        solution.strStr("aaa", "aaa");
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int strStr(String text, String pattern) {
-            char[] textChars = text.toCharArray();
-            char[] patternChars = pattern.toCharArray();
-            int plen = patternChars.length, tlen = textChars.length;
-
-            int[] next = next(pattern);
-            int pi = 0, ti = 0, lenDelta = tlen - plen;
-            while (pi < plen && (ti - pi) <= lenDelta) {
-                if (pi < 0 || textChars[ti] == patternChars[pi]) {
-                    pi++;
-                    ti++;
-                } else {
-                    pi = next[pi];
+        public int strStr(String haystack, String pattern) {
+            if (haystack == null || pattern == null) return -1;
+            int hLen = haystack.length(), pLen = pattern.length();
+            if (hLen == 0 || pLen == 0 || hLen < pLen) return -1;
+            int hi = 0, delta = hLen - pLen;
+            while (hi <= delta) {
+                int pi = 0;
+                for (; pi < pLen; pi++) {
+                    if (haystack.charAt(hi + pi) != pattern.charAt(pi)) break;
                 }
+                if (pi == pLen) return hi;
             }
-            return pi == plen ? (ti - pi) : -1;
-        }
-
-        private int[] next(String pattern) {
-            char[] chars = pattern.toCharArray();
-            int[] next = new int[chars.length];
-            int n = next[0] = -1;
-            int i = 0, iMax = chars.length - 1;
-            while (i < iMax) {
-                if (n < 0 || chars[i] == chars[n]) {
-                    next[++i] = ++n;
-                    if (chars[i] == chars[n]) {
-                        next[i] = next[n];
-                    } else {
-                        next[i] = n;
-                    }
-                } else {
-                    n = next[n];
-                }
-            }
-            return next;
+            return -1;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

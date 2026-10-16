@@ -1,0 +1,22 @@
+    class Solution {
+        public String reverseStr(String s, int k) {
+            char[] array = s.toCharArray();
+            int step = 2 * k;
+            int length = array.length;
+            for (int i = 0; i < length; i += step) {
+                reverseChars(array, i, Math.min(i + k - 1, length - 1));
+            }
+            return new String(array);
+        }
+
+        private void reverseChars(char[] arr, int l, int r) {
+            while (l < r) {
+                arr[l] ^= arr[r];
+                arr[r] ^= arr[l];
+                arr[l++] ^= arr[r--];
+            }
+        }
+    }
+
+//runtime:1 ms
+//memory:44.2 MB

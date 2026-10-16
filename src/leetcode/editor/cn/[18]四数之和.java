@@ -29,7 +29,7 @@ class FourSum {
                 if ((long) nums[one] + nums[length - 1] + nums[length - 2] + nums[length - 3] < target) continue;
                 for (int two = one + 1; two < length - 2; two++) {
                     int onePlusTwo = nums[one] + nums[two];
-                    if ((onePlusTwo > target && onePlusTwo >= 0) ||
+                    if ((onePlusTwo > target && nums[one] >= 0) ||
                             (long) onePlusTwo + nums[two + 1] + nums[two + 2] > target)
                         break;
                     if (two > one + 1 && nums[two] == nums[two - 1]) continue;

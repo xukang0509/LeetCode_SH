@@ -1,0 +1,22 @@
+    class Solution {
+        public String reverseWords(String s) {
+            char[] initalArr = s.toCharArray();
+            char[] newArr = new char[initalArr.length + 1];
+
+            int newArrPos = 0;
+            int i = initalArr.length - 1;
+            while (i >= 0) {
+                while (i >= 0 && initalArr[i] == ' ') i--;
+                int right = i;
+                while (i >= 0 && initalArr[i] != ' ') i--;
+                for (int j = i + 1; j <= right; j++) {
+                    newArr[newArrPos++] = initalArr[j];
+                    if (j == right) newArr[newArrPos++] = ' ';
+                }
+            }
+            return newArrPos == 0 ? "" : new String(newArr, 0, newArrPos - 1);
+        }
+    }
+
+//runtime:1 ms
+//memory:43.4 MB

@@ -1,5 +1,7 @@
 package leetcode.editor.cn;
 
+import java.util.Random;
+
 /**
  * 设计跳表
  * 2024-08-25 20:28:11
@@ -17,20 +19,22 @@ class DesignSkiplist {
 
         private final Node first;
         private int level;
+        private Random random;
 
         public Skiplist() {
             first = new Node(-1, MAX_LEVEL);
+            this.random = new Random();
         }
 
         public boolean search(int target) {
             Node node = first;
             for (int i = level - 1; i >= 0; i--) {
-                int cmp = -1;
-                while (node.nexts[i] != null && (cmp = target - node.nexts[i].value) > 0) {
+                while (node.nexts[i] != null && target > node.nexts[i].value) {
                     node = node.nexts[i];
                 }
-                if (cmp == 0) return true;
             }
+            node = node.nexts[0];
+            if (node != null && node.value == target) return true;
             return false;
         }
 
@@ -38,7 +42,7 @@ class DesignSkiplist {
             Node node = first;
             Node[] prevs = new Node[level];
             for (int i = level - 1; i >= 0; i--) {
-                while (node.nexts[i] != null && (num - node.nexts[i].value) >= 0) {
+                while (node.nexts[i] != null && num >= node.nexts[i].value) {
                     node = node.nexts[i];
                 }
                 prevs[i] = node;
@@ -83,7 +87,7 @@ class DesignSkiplist {
 
         private int randomLevel() {
             int level = 1;
-            while (Math.random() < P && level < MAX_LEVEL) {
+            while (random.nextDouble() < P && level < MAX_LEVEL) {
                 level++;
             }
             return level;

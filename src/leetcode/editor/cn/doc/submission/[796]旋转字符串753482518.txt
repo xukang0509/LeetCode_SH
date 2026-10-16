@@ -1,0 +1,37 @@
+    class Solution {
+        public boolean rotateString(String s, String goal) {
+            if (s.length() != goal.length()) return false;
+
+            char[] sCharArr = s.toCharArray();
+            char[] gCharArr = goal.toCharArray();
+            if (equalChars(gCharArr, sCharArr)) return true;
+
+            int length = s.length();
+            for (int i = 1; i < length; i++) {
+                reverseChars(sCharArr, 0, length - 1);
+                reverseChars(sCharArr, 1, length - 1);
+                if (equalChars(gCharArr, sCharArr)) return true;
+            }
+
+            return false;
+        }
+
+        private static void reverseChars(char[] chars, int left, int right) {
+            while (left < right) {
+                chars[left] ^= chars[right];
+                chars[right] ^= chars[left];
+                chars[left++] ^= chars[right--];
+            }
+        }
+
+        private static boolean equalChars(char[] arr1, char[] arr2) {
+            if (arr1 == null || arr2 == null || arr1.length != arr2.length) return false;
+            for (int i = 0; i < arr1.length; i++) {
+                if (arr1[i] != arr2[i]) return false;
+            }
+            return true;
+        }
+    }
+
+//runtime:1 ms
+//memory:42.9 MB

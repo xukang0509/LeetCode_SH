@@ -19,19 +19,14 @@ class ReverseString {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public void reverseString(char[] s) {
-            reverseString(s, 0, s.length - 1);
-        }
-
-        private static void reverseString(char[] s, int left, int right) {
-            while (left < right) {
-                swap(s, left++, right--);
+            int l = 0, r = s.length - 1;
+            while (l < r) {
+                s[l] ^= s[r];
+                s[r] ^= s[l];
+                s[l] ^= s[r];
+                l++;
+                r--;
             }
-        }
-
-        private static void swap(char[] s, int i, int j) {
-            char tmp = s[i];
-            s[i] = s[j];
-            s[j] = tmp;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

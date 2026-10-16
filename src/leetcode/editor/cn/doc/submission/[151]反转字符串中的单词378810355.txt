@@ -1,0 +1,51 @@
+class Solution {
+    public String reverseWords(String s) {
+        if (s == null || s.length() == 0) return s;
+        char[] chars = s.toCharArray();
+        // 消除多余的空格
+        int length = trim(chars);
+        if (length == 0) return null;
+        // 翻转
+        // 对整一个有效字符串进行逆序
+        reverseChars(chars, 0, length - 1);
+        // 前一个空格字符的位置
+        int prevSpaceIdx = -1; // 在-1位置有个假想的哨兵，就是一个假想的空格字符
+        for (int i = 0; i < length; i++) {
+            if (chars[i] != ' ') continue;
+            reverseChars(chars, prevSpaceIdx + 1, i - 1);
+            prevSpaceIdx = i;
+        }
+        reverseChars(chars, prevSpaceIdx + 1, length - 1);
+        return new String(chars, 0, length);
+    }
+    private int trim(char[] chars){
+        // 字符串最终的有效长度
+        int len = 0;
+        // 当前用来存放字符的位置
+        int cur = 0;
+        // 前一个字符是否为空格字符
+        boolean space = true;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != ' ') { // 非空格字符
+                chars[cur++] = chars[i];
+                space = false;
+            } else if (!space){ // chars[i]为空格字符，chars[i-1]为非空格字符
+                chars[cur++] = ' ';
+                space = true;
+            }
+        }
+        len = space ? cur - 1 : cur;
+        return len;
+    }
+    private void reverseChars(char[] chars, int left, int right){
+        while (left < right){
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
+//runtime:3 ms
+//memory:41.4 MB
