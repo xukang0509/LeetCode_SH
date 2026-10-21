@@ -1,0 +1,21 @@
+    class Solution {
+        // TODO
+        public int[] topKFrequent(int[] nums, int k) {
+            int[] res = new int[k];
+            Map<Integer, Integer> map = new HashMap<>();
+            PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((n1, n2) -> n1[0] == n2[0] ? n1[1] - n2[1] : n2[0] - n1[0]);
+            for (int num : nums) {
+                map.put(num, map.getOrDefault(num, 0) + 1);
+            }
+            map.forEach((key, value) -> {
+                priorityQueue.offer(new int[]{value, key});
+            });
+            for (int i = 0; i < res.length; i++) {
+                res[i] = priorityQueue.poll()[1];
+            }
+            return res;
+        }
+    }
+
+//runtime:15 ms
+//memory:47.1 MB

@@ -1,12 +1,15 @@
 package leetcode.editor.cn;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 逆波兰表达式求值
  * 2024-06-03 11:46:50
  */
+@SuppressWarnings("ALL")
 class EvaluateReversePolishNotation {
     public static void main(String[] args) {
         Solution solution = new EvaluateReversePolishNotation().new Solution();
@@ -15,34 +18,38 @@ class EvaluateReversePolishNotation {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        private static final Set<String> SET = new HashSet<>() {{
+            add("+");
+            add("-");
+            add("*");
+            add("/");
+        }};
+
         public int evalRPN(String[] tokens) {
-            Deque<Integer> numsStack = new LinkedList<>();
+            Deque<Integer> stack = new ArrayDeque<>();
             for (String token : tokens) {
-                switch (token) {
-                    case "+" -> {
-                        Integer num1 = numsStack.pop();
-                        Integer num2 = numsStack.pop();
-                        numsStack.push(num1 + num2);
+                if (SET.contains(token)) {
+                    int num1 = stack.pop();
+                    int num2 = stack.pop();
+                    switch (token) {
+                        case "+":
+                            stack.push(num1 + num2);
+                            break;
+                        case "-":
+                            stack.push(num2 - num1);
+                            break;
+                        case "*":
+                            stack.push(num1 * num2);
+                            break;
+                        case "/":
+                            stack.push(num2 / num1);
+                            break;
                     }
-                    case "-" -> {
-                        Integer num1 = numsStack.pop();
-                        Integer num2 = numsStack.pop();
-                        numsStack.push(num2 - num1);
-                    }
-                    case "*" -> {
-                        Integer num1 = numsStack.pop();
-                        Integer num2 = numsStack.pop();
-                        numsStack.push(num1 * num2);
-                    }
-                    case "/" -> {
-                        Integer num1 = numsStack.pop();
-                        Integer num2 = numsStack.pop();
-                        numsStack.push(num2 / num1);
-                    }
-                    default -> numsStack.push(Integer.parseInt(token));
+                } else {
+                    stack.push(Integer.valueOf(token));
                 }
             }
-            return numsStack.pop();
+            return stack.pop();
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

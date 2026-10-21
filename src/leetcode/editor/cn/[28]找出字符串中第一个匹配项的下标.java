@@ -17,15 +17,32 @@ class FindTheIndexOfTheFirstOccurrenceInAString {
             if (haystack == null || pattern == null) return -1;
             int hLen = haystack.length(), pLen = pattern.length();
             if (hLen == 0 || pLen == 0 || hLen < pLen) return -1;
-            int hi = 0, delta = hLen - pLen;
-            while (hi <= delta) {
-                int pi = 0;
-                for (; pi < pLen; pi++) {
-                    if (haystack.charAt(hi + pi) != pattern.charAt(pi)) break;
+
+            int[] next = getNext(pattern.toCharArray());
+            int hi = 0, pi = 0;
+            while (pi < pLen && hi < hLen) {
+                if (pi < 0 || haystack.charAt(hi) == pattern.charAt(pi)) {
+                    hi++;
+                    pi++;
+                } else {
+                    pi = next[pi];
                 }
-                if (pi == pLen) return hi;
             }
-            return -1;
+            return pi == pLen ? (hi - pi) : -1;
+        }
+
+        private static int[] getNext(char[] pattern) {
+            int[] next = new int[pattern.length];
+            int n = next[0] = -1;
+            int i = 0, iMax = pattern.length - 1;
+            while (i < iMax) {
+                if (n < 0 || pattern[i] == pattern[n]) {
+                    next[++i] = ++n;
+                } else {
+                    n = next[n];
+                }
+            }
+            return next;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,0 +1,28 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for (String str : tokens) {
+           switch (str){
+               case "+":
+                   stack.push(stack.pop() + stack.pop());
+                   break;
+               case "-":
+                   stack.push(-stack.pop() + stack.pop());
+                   break;
+               case "*":
+                   stack.push(stack.pop() * stack.pop());
+                   break;
+               case "/":
+                   Integer right = stack.pop();
+                   stack.push(stack.pop() / right);
+                   break;
+               default:
+                   stack.push(Integer.valueOf(str));
+                   break;
+           }
+        }
+        return stack.pop();
+    }
+}
+//runtime:5 ms
+//memory:41.2 MB

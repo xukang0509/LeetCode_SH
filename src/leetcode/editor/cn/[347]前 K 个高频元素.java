@@ -1,5 +1,9 @@
 package leetcode.editor.cn;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 /**
  * 前 K 个高频元素
  * 2024-07-19 11:49:53
@@ -16,23 +20,23 @@ class TopKFrequentElements {
     // [1,2]
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        // TODO
         public int[] topKFrequent(int[] nums, int k) {
-            int[] res = new int[k];
-            int max = nums[0], min = nums[0];
-            for (int i = 1; i < nums.length; i++) {
-                max = Math.max(max, nums[i]);
-                min = Math.min(min, nums[i]);
-            }
-            int[] counting = new int[max - min + 1];
+            Map<Integer, Integer> map = new HashMap<>();
             for (int num : nums) {
-                counting[num - min]++;
+                map.put(num, map.getOrDefault(num, 0) + 1);
             }
 
+            PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((n1, n2) -> n1[0] - n2[0]);
+            map.forEach((num, count) -> {
+                priorityQueue.offer(new int[]{count, num});
+                if (priorityQueue.size() > k) {
+                    priorityQueue.poll();
+                }
+            });
 
-            for (int i = 0; i < k; i++) {
-                //int idx = findKMax(counting, 0, counting.length - 1, i + 1);
-                //res[i] = idx + min;
+            int[] res = new int[k];
+            for (int i = k - 1; i >= 0; i--) {
+                res[i] = priorityQueue.poll()[1];
             }
             return res;
         }

@@ -1,0 +1,38 @@
+    class Solution {
+        private static final Set<String> SET = new HashSet<>() {{
+            add("+");
+            add("-");
+            add("*");
+            add("/");
+        }};
+
+        public int evalRPN(String[] tokens) {
+            Deque<String> stack = new ArrayDeque<>();
+            for (String token : tokens) {
+                if (SET.contains(token)) {
+                    int num1 = Integer.parseInt(stack.pop());
+                    int num2 = Integer.parseInt(stack.pop());
+                    switch (token) {
+                        case "+":
+                            stack.push(String.valueOf(num1 + num2));
+                            break;
+                        case "-":
+                            stack.push(String.valueOf(num2 - num1));
+                            break;
+                        case "*":
+                            stack.push(String.valueOf(num1 * num2));
+                            break;
+                        case "/":
+                            stack.push(String.valueOf((int) num2 / num1));
+                            break;
+                    }
+                } else {
+                    stack.push(token);
+                }
+            }
+            return Integer.parseInt(stack.pop());
+        }
+    }
+
+//runtime:6 ms
+//memory:45.8 MB

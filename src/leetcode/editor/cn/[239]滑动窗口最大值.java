@@ -1,8 +1,5 @@
 package leetcode.editor.cn;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * 滑动窗口最大值
  * 2024-08-20 09:27:55
@@ -17,20 +14,26 @@ class SlidingWindowMaximum {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int[] maxSlidingWindow(int[] nums, int k) {
-            Deque<Integer> deque = new LinkedList<>();
-            int[] res = new int[nums.length - k + 1];
-            for (int j = 0, i = 1 - k; j < nums.length; i++, j++) {
-                int num = nums[j];
-                if (i > 0 && deque.peekFirst() == nums[i - 1]) {
-                    deque.pollFirst();
+            int length = nums.length;
+            int[] prefix = new int[length];
+            int[] suffix = new int[length];
+            for (int i = 0; i < length; i++) {
+                if (i % k == 0) {
+                    prefix[i] = nums[i];
+                } else {
+                    prefix[i] = Math.max(nums[i], prefix[i - 1]);
                 }
-                while (!deque.isEmpty() && deque.peekLast() < num) {
-                    deque.pollLast();
+            }
+            for (int i = length - 1; i >= 0; i--) {
+                if ((i + 1) % k == 0 || i == length - 1) {
+                    suffix[i] = nums[i];
+                } else {
+                    suffix[i] = Math.max(nums[i], suffix[i + 1]);
                 }
-                deque.offerLast(num);
-                if (i >= 0) {
-                    res[i] = deque.peekFirst();
-                }
+            }
+            int[] res = new int[length - k + 1];
+            for (int i = 0; i < res.length; i++) {
+                res[i] = Math.max(prefix[i + k - 1], suffix[i]);
             }
             return res;
         }

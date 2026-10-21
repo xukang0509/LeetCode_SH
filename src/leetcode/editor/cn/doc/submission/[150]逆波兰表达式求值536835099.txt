@@ -1,0 +1,34 @@
+    class Solution {
+        public int evalRPN(String[] tokens) {
+            Deque<Integer> numsStack = new LinkedList<>();
+            for (String token : tokens) {
+                switch (token) {
+                    case "+" -> {
+                        Integer num1 = numsStack.pop();
+                        Integer num2 = numsStack.pop();
+                        numsStack.push(num1 + num2);
+                    }
+                    case "-" -> {
+                        Integer num1 = numsStack.pop();
+                        Integer num2 = numsStack.pop();
+                        numsStack.push(num2 - num1);
+                    }
+                    case "*" -> {
+                        Integer num1 = numsStack.pop();
+                        Integer num2 = numsStack.pop();
+                        numsStack.push(num1 * num2);
+                    }
+                    case "/" -> {
+                        Integer num1 = numsStack.pop();
+                        Integer num2 = numsStack.pop();
+                        numsStack.push(num2 / num1);
+                    }
+                    default -> numsStack.push(Integer.parseInt(token));
+                }
+            }
+            return numsStack.pop();
+        }
+    }
+
+//runtime:5 ms
+//memory:43.5 MB

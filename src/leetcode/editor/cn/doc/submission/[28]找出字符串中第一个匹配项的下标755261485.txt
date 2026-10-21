@@ -1,0 +1,21 @@
+    class Solution {
+        public int strStr(String haystack, String pattern) {
+            if (haystack == null || pattern == null) return -1;
+            int hLen = haystack.length(), pLen = pattern.length();
+            if (hLen == 0 || pLen == 0 || hLen < pLen) return -1;
+            int hi = 0, pi = 0, delta = hLen - pLen;
+            while (pi < pLen && hi - pi <= delta) {
+                if (haystack.charAt(hi) == pattern.charAt(pi)) {
+                    hi++;
+                    pi++;
+                } else {
+                    hi = hi - pi + 1;
+                    pi = 0;
+                }
+            }
+            return pi == pLen ? (hi - pi) : -1;
+        }
+    }
+
+//runtime:1 ms
+//memory:42.2 MB
