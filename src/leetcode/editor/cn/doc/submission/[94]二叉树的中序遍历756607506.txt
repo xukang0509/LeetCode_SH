@@ -1,0 +1,45 @@
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
+    class Solution {
+        /*
+                 5
+                /  \
+               4    6
+              / \
+             1   2
+         */
+        // 中序 1 4 2 5 6
+        public List<Integer> inorderTraversal(TreeNode root) {
+            List<Integer> result = new ArrayList<>();
+            if (root == null) return result;
+            Deque<TreeNode> satck = new ArrayDeque<>();
+            while (!satck.isEmpty() || root != null) {
+                if (root != null) {
+                    satck.push(root);
+                    root = root.left;
+                } else {
+                    root = satck.pop();
+                    result.add(root.val);
+                    root = root.right;
+                }
+            }
+            return result;
+        }
+    }
+
+//runtime:0 ms
+//memory:42.7 MB
