@@ -9,10 +9,17 @@ import java.util.List;
  * 二叉树的前序遍历
  * 2024-06-13 15:03:01
  */
+@SuppressWarnings("ALL")
 class BinaryTreePreorderTraversal {
     public static void main(String[] args) {
         Solution solution = new BinaryTreePreorderTraversal().new Solution();
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node1 = new TreeNode(1);
+        node2.left = node3;
+        node1.right = node2;
 
+        solution.preorderTraversal(node1);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -33,29 +40,37 @@ class BinaryTreePreorderTraversal {
      * }
      */
     class Solution {
+        /*
+                5
+               /  \
+              4    6
+             / \
+            1   2
+        */
+        // 前序 5 4 1 2 6
         public List<Integer> preorderTraversal(TreeNode root) {
-            List<Integer> result = new ArrayList<>();
-            TreeNode cur = root, leftRight = null;
-            while (cur != null) {
-                if (cur.left != null) {
-                    leftRight = cur.left;
-                    while (leftRight.right != null && leftRight.right != cur) {
-                        leftRight = leftRight.right;
+            List<Integer> res = new ArrayList<>();
+            TreeNode curr = root;
+            while (curr != null) {
+                if (curr.left != null) {
+                    TreeNode rightMost = curr.left;
+                    while (rightMost.right != null && rightMost.right != curr) {
+                        rightMost = rightMost.right;
                     }
-                    if (leftRight.right == null) {
-                        result.add(cur.val);
-                        leftRight.right = cur;
-                        cur = cur.left;
-                        continue;
+                    if (rightMost.right == null) {
+                        res.add(curr.val);
+                        rightMost.right = curr;
+                        curr = curr.left;
                     } else {
-                        leftRight.right = null;
+                        rightMost.right = null;
+                        curr = curr.right;
                     }
                 } else {
-                    result.add(cur.val);
+                    res.add(curr.val);
+                    curr = curr.right;
                 }
-                cur = cur.right;
             }
-            return result;
+            return res;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

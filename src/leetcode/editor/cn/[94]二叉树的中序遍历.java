@@ -9,10 +9,17 @@ import java.util.List;
  * 二叉树的中序遍历
  * 2024-06-13 15:02:58
  */
+@SuppressWarnings("ALL")
 class BinaryTreeInorderTraversal {
     public static void main(String[] args) {
         Solution solution = new BinaryTreeInorderTraversal().new Solution();
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node1 = new TreeNode(1);
+        node2.left = node3;
+        node1.right = node2;
 
+        solution.inorderTraversal(node1);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -33,27 +40,35 @@ class BinaryTreeInorderTraversal {
      * }
      */
     class Solution {
+        /*
+                 5
+                /  \
+               4    6
+              / \
+             1   2
+         */
+        // 中序 1 4 2 5 6
         public List<Integer> inorderTraversal(TreeNode root) {
             List<Integer> result = new ArrayList<>();
-            TreeNode cur = root, leftRight = null;
-            while (cur != null) {
-                if (cur.left != null) {
-                    leftRight = cur.left;
-                    while (leftRight.right != null && leftRight.right != cur) {
-                        leftRight = leftRight.right;
+            TreeNode curr = root;
+            while (curr != null) {
+                if (curr.left != null) {
+                    TreeNode rightMost = curr.left;
+                    while (rightMost.right != null && rightMost.right != curr) {
+                        rightMost = rightMost.right;
                     }
-                    if (leftRight.right == null) {
-                        leftRight.right = cur;
-                        cur = cur.left;
-                        continue;
+                    if (rightMost.right == null) {
+                        rightMost.right = curr;
+                        curr = curr.left;
                     } else {
-                        result.add(cur.val);
-                        leftRight.right = null;
+                        result.add(curr.val);
+                        rightMost.right = null;
+                        curr = curr.right;
                     }
                 } else {
-                    result.add(cur.val);
+                    result.add(curr.val);
+                    curr = curr.right;
                 }
-                cur = cur.right;
             }
             return result;
         }
