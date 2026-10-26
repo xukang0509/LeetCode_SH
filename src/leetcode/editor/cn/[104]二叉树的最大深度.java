@@ -2,13 +2,14 @@ package leetcode.editor.cn;
 
 import leetcode.editor.util.TreeNode;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 二叉树的最大深度
  * 2024-06-13 15:44:20
  */
+@SuppressWarnings("ALL")
 class MaximumDepthOfBinaryTree {
     public static void main(String[] args) {
         Solution solution = new MaximumDepthOfBinaryTree().new Solution();
@@ -34,20 +35,20 @@ class MaximumDepthOfBinaryTree {
      */
     class Solution {
         public int maxDepth(TreeNode root) {
-            if (root == null) return 0;
-            Queue<TreeNode> queue = new LinkedList<>();
+            int maxDepth = 0;
+            if (root == null) return maxDepth;
+            Deque<TreeNode> queue = new ArrayDeque<>();
             queue.offer(root);
-            int depth = 0;
             while (!queue.isEmpty()) {
                 int size = queue.size();
-                depth++;
                 for (int i = 0; i < size; i++) {
                     TreeNode poll = queue.poll();
                     if (poll.left != null) queue.offer(poll.left);
                     if (poll.right != null) queue.offer(poll.right);
                 }
+                maxDepth++;
             }
-            return depth;
+            return maxDepth;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

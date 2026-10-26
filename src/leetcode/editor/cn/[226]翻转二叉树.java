@@ -2,13 +2,14 @@ package leetcode.editor.cn;
 
 import leetcode.editor.util.TreeNode;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * 翻转二叉树
  * 2024-06-13 16:16:10
  */
+@SuppressWarnings("ALL")
 class InvertBinaryTree {
     public static void main(String[] args) {
         Solution solution = new InvertBinaryTree().new Solution();
@@ -35,16 +36,15 @@ class InvertBinaryTree {
     class Solution {
         public TreeNode invertTree(TreeNode root) {
             if (root == null) return root;
-            Deque<TreeNode> stack = new LinkedList<>();
-            stack.push(root);
-            while (!stack.isEmpty()) {
-                TreeNode pop = stack.pop();
-                // 交换
-                TreeNode t = pop.left;
-                pop.left = pop.right;
-                pop.right = t;
-                if (pop.right != null) stack.push(pop.right);
-                if (pop.left != null) stack.push(pop.left);
+            Deque<TreeNode> queue = new ArrayDeque<>();
+            queue.offer(root);
+            while (!queue.isEmpty()) {
+                TreeNode poll = queue.poll();
+                if (poll.left != null) queue.offer(poll.left);
+                if (poll.right != null) queue.offer(poll.right);
+                TreeNode tmp = poll.left;
+                poll.left = poll.right;
+                poll.right = tmp;
             }
             return root;
         }

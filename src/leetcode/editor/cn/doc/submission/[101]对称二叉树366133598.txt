@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        // 空树 或者 只有根节点时，返回true
+        if(root == null || (root.right == null && root.left == null)) {
+            return true;
+        }
+
+        //用队列保存节点
+        Deque<TreeNode> queue = new LinkedList<>();
+        //将根节点的左右孩子放到队列中
+        queue.offer(root.left);
+        queue.offer(root.right);
+
+        while(!queue.isEmpty()){
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+
+            boolean isAnyNull = left == null || right == null;
+            if(left == null && right == null) continue;
+            if(left == null || right == null) return false;
+            if(left.val != right.val) return false;
+            //将左节点的左孩子， 右节点的右孩子放入队列
+            queue.offer(left.left);
+            queue.offer(right.right);
+            //将左节点的右孩子，右节点的左孩子放入队列
+            queue.offer(left.right);
+            queue.offer(right.left);
+        }
+        return true;
+    }
+}
+//runtime:1 ms
+//memory:39.8 MB

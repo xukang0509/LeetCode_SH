@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null || subRoot == null) return false;
+        return postSerialize(root).contains(postSerialize(subRoot));
+    }
+
+    /**
+     * 利用后序遍历的方式进行序列化
+     * @param root
+     * @return
+     */
+    private String postSerialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        postSerialize(root, sb);
+        return sb.toString();
+    }
+    private void postSerialize(TreeNode node, StringBuilder sb) {
+        if (node.left != null) {
+            postSerialize(node.left, sb);
+        } else {
+            sb.append("#!");
+        }
+        if (node.right != null) {
+            postSerialize(node.right, sb);
+        } else {
+            sb.append("#!");
+        }
+        sb.append(node.val).append("!");
+    }
+}
+//runtime:3 ms
+//memory:41.4 MB

@@ -1,0 +1,94 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    /*
+    * KMP
+    * */
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null || subRoot == null) return false;
+        return contains(postSerialize(root), postSerialize(subRoot));
+    }
+
+    /**
+     * 利用后序遍历的方式进行序列化
+     * @param root
+     * @return
+     */
+    private String postSerialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        postSerialize(root, sb);
+        return sb.toString();
+    }
+    private void postSerialize(TreeNode node, StringBuilder sb) {
+        if (node.left != null) {
+            postSerialize(node.left, sb);
+        } else {
+            sb.append("#!");
+        }
+        if (node.right != null) {
+            postSerialize(node.right, sb);
+        } else {
+            sb.append("#!");
+        }
+        sb.append(node.val).append("!");
+    }
+
+    private boolean contains(String test, String pattern) {
+        char[] testChars = test.toCharArray();
+        char[] patternChars = pattern.toCharArray();
+        int tlen = testChars.length, plen = patternChars.length;
+        if (tlen == 0 || plen == 0 || tlen < plen) return false;
+
+        // next表
+        int[] next = next(pattern);
+        int pi = 0, ti = 0, lenDelta = tlen - plen;
+        while (pi < plen && (ti - pi) <= lenDelta) {
+            if (pi < 0 || testChars[ti] == patternChars[pi]) {
+                pi++;
+                ti++;
+            } else {
+                pi = next[pi];
+            }
+        }
+        return pi == plen;
+    }
+
+    /**
+     * 构建next表 -- 优化
+     */
+    private int[] next(String pattern){
+        char[] chars = pattern.toCharArray();
+        int[] next = new int[chars.length];
+        int n = next[0] = -1;
+        int i = 0, iMax = chars.length - 1;
+        while (i < iMax) {
+            if (n < 0 || chars[i] == chars[n]) {
+                i++;
+                n++;
+                if (chars[i] == chars[n]){
+                    next[i] = next[n];
+                } else {
+                    next[i] = n;
+                }
+            } else {
+                n = next[n];
+            }
+        }
+        return next;
+    }
+}
+//runtime:4 ms
+//memory:41.3 MB

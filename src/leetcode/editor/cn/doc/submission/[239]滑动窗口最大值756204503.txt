@@ -1,0 +1,20 @@
+    class Solution {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            Deque<Integer> deque = new ArrayDeque<>(k);
+            int[] res = new int[nums.length - k + 1];
+            for (int i = 0, j = 1 - k; i < nums.length; i++, j++) {
+                int num = nums[i];
+                // 移除的元素可能是上一个窗口内的最大值
+                if (j > 0 && deque.peekFirst() == nums[j - 1]) deque.pollFirst();
+                // 维护队列的单调递减特性，不是单调递减，删除队尾
+                while (!deque.isEmpty() && num > deque.peekLast()) deque.pollLast();
+                // 入队尾
+                deque.offerLast(num);
+                if (j >= 0) res[j] = deque.peekFirst();
+            }
+            return res;
+        }
+    }
+
+//runtime:27 ms
+//memory:135.8 MB

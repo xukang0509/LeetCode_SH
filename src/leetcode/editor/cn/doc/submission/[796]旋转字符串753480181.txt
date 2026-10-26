@@ -1,0 +1,29 @@
+    class Solution {
+        public boolean rotateString(String s, String goal) {
+            if (s.length() != goal.length()) return false;
+            if (s.equals(goal)) return true;
+
+            char[] sCharArr = s.toCharArray();
+            char[] gCharArr = goal.toCharArray();
+
+            int length = s.length();
+            for (int i = 1; i < length; i++) {
+                reverseChars(sCharArr, 0, length - 1);
+                reverseChars(sCharArr, 1, length - 1);
+                if (Arrays.equals(gCharArr, sCharArr)) return true;
+            }
+
+            return false;
+        }
+
+        private static void reverseChars(char[] chars, int left, int right) {
+            while (left < right) {
+                chars[left] ^= chars[right];
+                chars[right] ^= chars[left];
+                chars[left++] ^= chars[right--];
+            }
+        }
+    }
+
+//runtime:1 ms
+//memory:43.1 MB
