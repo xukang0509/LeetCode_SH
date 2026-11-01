@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+        /*
+         * 1.扫描一遍所有元素
+         * 2.保持栈从栈底到栈顶是单调递减的
+         * */
+        int len = nums.length;
+        Deque<Integer> stack = new LinkedList<>();
+        int[] left = new int[len];
+        int[] right = new int[len];
+        TreeNode[] trees = new TreeNode[len];
+        for (int i = 0; i < len; i++) {
+            right[i] = -1;
+            trees[i] = new TreeNode(nums[i]);
+            while (!stack.isEmpty() && nums[i] > nums[stack.peek()]){
+                right[stack.pop()] = i;
+            }
+            left[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+        TreeNode root = null;
+        for (int i = 0; i < len; i++) {
+            if (left[i] == -1 && right[i] == -1) {
+                root = trees[i];
+                continue;
+            }
+            if (left[i] == -1) {
+                trees[right[i]].left = trees[i];
+            } else if (right[i] == -1) {
+                trees[left[i]].right = trees[i];
+            } else if (nums[left[i]] > nums[right[i]]) {
+                trees[right[i]].left = trees[i];
+            } else {
+                trees[left[i]].right = trees[i];
+            }
+        }
+        return root;
+    }
+}
+//runtime:10 ms
+//memory:41.7 MB
