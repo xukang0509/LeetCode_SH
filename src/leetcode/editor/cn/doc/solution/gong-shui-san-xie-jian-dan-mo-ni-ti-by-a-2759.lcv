@@ -1,0 +1,42 @@
+## 模拟
+
+今天是个特别的日子，可惜是个简单题 QWQ
+
+按照通用的进制转换方式进行模拟即可。
+
+代码：
+
+* []
+
+```Java
+class Solution {
+    public String convertToBase7(int n) {
+        boolean flag = n < 0;
+        if (flag) n = -n;
+        StringBuilder sb = new StringBuilder();
+        do {
+            sb.append(n % 7);
+            n /= 7;
+        } while (n != 0);
+        sb.reverse();
+        return flag ? "-" + sb.toString() : sb.toString();
+    }
+}
+```
+
+* 时间复杂度：$O(\log{|n|})$
+* 空间复杂度：$O(\log{|n|})$
+
+---
+
+## 最后
+
+今天是连续更新每日一题题解的第 $400$ 天 🎉 🎉，刚好还是女生节 🤣
+
+特殊的日子，开个赞赏拍个全家福，仍然是「**学生免费，非学生是否赞赏都能看**」的原则。
+
+另外需要强调：力扣「赞赏」行为的发生，必须基于「你十分喜欢该作者」&「你十分喜欢该平台」，两者缺一不可。
+
+如果你确定满足上述所有条件的话，可以花 **最多一元（千万千万不要给多了，就给一元就行）** 留个头像 🤣，或者只需给我点个赞留个言，我也同样开心 ❤️
+
+![WechatIMG2253.jpeg](https://pic.leetcode.cn/1646609831-dOOUoF-WechatIMG2253.jpeg)

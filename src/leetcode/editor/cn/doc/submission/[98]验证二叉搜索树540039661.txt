@@ -1,0 +1,40 @@
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
+    class Solution {
+        public boolean isValidBST(TreeNode root) {
+            TreeNode node = root;
+            long preNum = Long.MIN_VALUE;
+            Deque<TreeNode> stack = new LinkedList<>();
+            while (!stack.isEmpty() || node != null) {
+                if (node != null) {
+                    stack.push(node);
+                    node = node.left;
+                } else {
+                    TreeNode pop = stack.pop();
+                    if (pop.val <= preNum) {
+                        return false;
+                    }
+                    preNum = pop.val;
+                    node = pop.right;
+                }
+            }
+            return true;
+        }
+    }
+
+//runtime:2 ms
+//memory:43.4 MB

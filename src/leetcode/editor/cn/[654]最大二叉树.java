@@ -2,8 +2,8 @@ package leetcode.editor.cn;
 
 import leetcode.editor.util.TreeNode;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * @Description: 654 最大二叉树 maximum-binary-tree
@@ -38,7 +38,7 @@ class MaximumBinaryTree {
         // todo 单调栈
         public TreeNode constructMaximumBinaryTree(int[] nums) {
             if (nums == null || nums.length == 0) return null;
-            Deque<TreeNode> deque = new LinkedList<>();
+            Deque<TreeNode> deque = new ArrayDeque<>(1006);
             deque.offerLast(new TreeNode(nums[0]));
             for (int i = 1; i < nums.length; i++) {
                 TreeNode node = null;
@@ -52,7 +52,7 @@ class MaximumBinaryTree {
             }
             return deque.peekFirst();
         }
-        
+
         // =======================================================================================================
         public TreeNode constructMaximumBinaryTree2(int[] nums) {
             if (nums == null || nums.length == 0) return null;
